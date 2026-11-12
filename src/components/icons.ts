@@ -1,0 +1,50 @@
+import {
+  AirVent,
+  Building2,
+  Car,
+  Coffee,
+  CookingPot,
+  Droplets,
+  Dumbbell,
+  Gem,
+  Hotel,
+  House,
+  Laptop,
+  ShieldCheck,
+  TreePine,
+  Tv,
+  Umbrella,
+  WashingMachine,
+  Waves,
+  WavesLadder,
+  Wifi,
+  Zap,
+  type LucideIcon,
+} from 'lucide-react'
+import type { AmenityId, PropertyType } from '../contracts'
+
+export const PROPERTY_ICONS: Record<PropertyType, LucideIcon> = {
+  house: House,
+  apartment: Building2,
+  villa: Gem,
+  beach: Waves,
+  cabin: TreePine,
+  guesthouse: Hotel,
+}
+
+export const AMENITY_ICONS: Record<AmenityId, LucideIcon> = {
+  wifi: Wifi,
+  ac: AirVent,
+  kitchen: CookingPot,
+  parking: Car,
+  pool: WavesLadder,
+  tv: Tv,
+  washer: WashingMachine,
+  generator: Zap,
+  'water-tank': Droplets,
+  workspace: Laptop,
+  security: ShieldCheck,
+  gym: Dumbbell,
+  breakfast: Coffee,
+  'beach-access': Umbrella,
+}

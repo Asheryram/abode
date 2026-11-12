@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+
+  /* Brand: deep forest green. 700 is the primary surface (buttons, links). */
+  --color-brand-50: #eef8f5;
+  --color-brand-100: #d5eee6;
+  --color-brand-200: #aedccf;
+  --color-brand-300: #7cc3b0;
+  --color-brand-400: #4ea590;
+  --color-brand-500: #2f8974;
+  --color-brand-600: #1f705e;
+  --color-brand-700: #0f5c4d;
+  --color-brand-800: #0c4a3e;
+  --color-brand-900: #0a3b32;
+
+  /* Accent: warm amber. A surface colour only, never text on white. */
+  --color-accent-100: #fdeccf;
+  --color-accent-300: #f6c47a;
+  --color-accent-500: #f2a541;
+  --color-accent-700: #b46d0e;
+
+  /* Neutrals with a hint of warmth. */
+  --color-ink: #1c1917;
+  --color-muted: #6b6560;
+  --color-line: #e7e3df;
+  --color-canvas: #fbfaf8;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-canvas text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+}
