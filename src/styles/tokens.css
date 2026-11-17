@@ -1,0 +1,86 @@
+/*
+ * Design tokens. The only place raw colour values live.
+ *
+ * Two layers:
+ *   1. Palette (brand, accent, neutrals): the raw brand colours.
+ *   2. Semantic tokens (status, promoted, trust): what a colour MEANS.
+ *
+ * Components use semantic tokens wherever a meaning exists. A screen never
+ * uses a raw hex value or a Tailwind default colour (red-600, sky-700...).
+ * Every text/background pair here is checked for WCAG AA contrast by
+ * `npm run check:contrast` (scripts/check-contrast.mjs). Add a new pair there
+ * when you add a token that carries text.
+ */
+
+@theme {
+  --font-sans:
+    'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+
+  /* ── 1. Palette ─────────────────────────────────────────────────────── */
+
+  /* Brand: deep forest green. 700 is the primary surface (buttons, links). */
+  --color-brand-50: #eef8f5;
+  --color-brand-100: #d5eee6;
+  --color-brand-200: #aedccf;
+  --color-brand-300: #7cc3b0;
+  --color-brand-400: #4ea590;
+  --color-brand-500: #2f8974;
+  --color-brand-600: #1f705e;
+  --color-brand-700: #0f5c4d;
+  --color-brand-800: #0c4a3e;
+  --color-brand-900: #0a3b32;
+
+  /* Accent: warm amber. A surface colour only, never text on white. */
+  --color-accent-100: #fdeccf;
+  --color-accent-300: #f6c47a;
+  --color-accent-500: #f2a541;
+  --color-accent-700: #b46d0e;
+
+  /* Neutrals with a hint of warmth. */
+  --color-ink: #1c1917;
+  --color-muted: #6b6560;
+  --color-line: #e7e3df;
+  --color-canvas: #fbfaf8;
+
+  /* ── 2. Semantic: status ────────────────────────────────────────────── */
+  /* Each tone = background + foreground (text and icon) + border. */
+
+  --color-success-bg: #eef8f5;
+  --color-success-fg: #0c4a3e;
+  --color-success-border: #aedccf;
+
+  --color-warning-bg: #fdf3e1;
+  --color-warning-fg: #7a4508;
+  --color-warning-border: #f6c47a;
+
+  --color-danger-bg: #fdf0ef;
+  --color-danger-fg: #9b1c1c;
+  --color-danger-border: #f3b8b3;
+  --color-danger-solid: #b42318;
+
+  --color-info-bg: #eef5fb;
+  --color-info-fg: #0b4a74;
+  --color-info-border: #b3d3ea;
+
+  --color-neutral-bg: #f3f1ee;
+  --color-neutral-fg: #44403c;
+  --color-neutral-border: #e7e3df;
+
+  /* ── 2. Semantic: marketplace meanings ──────────────────────────────── */
+
+  /* Paid placement. Deliberately unlike every status tone (SEA-021, ADS-012). */
+  --color-promoted-bg: #1c1917;
+  --color-promoted-fg: #ffffff;
+
+  /* Trust badges (TRU-022, DEC-20). Three looks that cannot be confused. */
+  --color-trust-agency-bg: #0f5c4d;
+  --color-trust-agency-fg: #ffffff;
+  --color-trust-owner-bg: #ffffff;
+  --color-trust-owner-fg: #0f5c4d;
+  --color-trust-owner-border: #0f5c4d;
+
+  /* Live location and sharing (TRK-023, TRK-031). */
+  --color-live: #0f5c4d;
+  --color-stale: #7a4508;
+}

@@ -104,7 +104,7 @@ export function LoginPage() {
                 size="sm"
                 onClick={() => {
                   setEmail(d.email)
-                  setPassword(demo.password)
+                  setPassword(demo?.password ?? '')
                 }}
               >
                 {d.label}

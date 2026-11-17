@@ -17,6 +17,8 @@ const WishlistPage = lazy(() => import('./pages/WishlistPage'))
 const AccountPage = lazy(() => import('./pages/AccountPage'))
 const HostDashboard = lazy(() => import('./pages/host/HostDashboard'))
 const ListingEditor = lazy(() => import('./pages/host/ListingEditor'))
+const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
+const TrustPage = lazy(() => import('./pages/TrustPage'))
 
 export default function App() {
   return (
@@ -32,6 +34,8 @@ export default function App() {
                   <Route path="listings/:id" element={<ListingPage />} />
                   <Route path="login" element={<LoginPage />} />
                   <Route path="signup" element={<SignupPage />} />
+                  <Route path="trust" element={<TrustPage />} />
+                  <Route path="design-system" element={<DesignSystemPage />} />
                   <Route element={<RequireAuth />}>
                     <Route path="book/:id" element={<CheckoutPage />} />
                     <Route path="trips" element={<TripsPage />} />
