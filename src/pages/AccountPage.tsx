@@ -99,7 +99,7 @@ export default function AccountPage() {
         onClose={() => setResetOpen(false)}
         onConfirm={async () => {
           await demo?.reset()
-          window.location.assign('/')
+          window.location.assign(import.meta.env.BASE_URL)
         }}
       />
     </div>
