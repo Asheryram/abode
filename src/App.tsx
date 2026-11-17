@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { DirectionSwitcher } from './components/DirectionSwitcher'
 import { MainLayout } from './components/Layout'
 import { RequireAuth, ScrollToTop } from './components/routing'
 import { Spinner } from './components/ui'
@@ -22,7 +23,7 @@ const TrustPage = lazy(() => import('./pages/TrustPage'))
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <ToastProvider>
         <AuthProvider>
           <WishlistProvider>
@@ -51,6 +52,7 @@ export default function App() {
                 </Route>
               </Routes>
             </Suspense>
+            <DirectionSwitcher />
           </WishlistProvider>
         </AuthProvider>
       </ToastProvider>
