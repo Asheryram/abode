@@ -2,9 +2,9 @@
 # It runs on the in-browser sample data: no backend, no real payments.
 name: Deploy mockup to GitHub Pages
 
+# Manual only: the mockup is hosted on Vercel. Run this from the Actions tab
+# if you switch Pages on and want a GitHub-hosted copy too.
 on:
-  push:
-    branches: [main, design-system]
   workflow_dispatch:
 
 permissions:
