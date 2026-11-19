@@ -129,8 +129,8 @@ function UserMenu() {
   const item = 'block rounded-lg px-3 py-2.5 text-[15px] hover:bg-stone-100'
   return (
     <div ref={root} className="relative">
-      <button type="button" onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 rounded-full border border-line py-1.5 pr-1.5 pl-3 hover:shadow-md" aria-expanded={open} aria-label="Account menu">
-        <Menu className="size-4" aria-hidden />
+      <button type="button" onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 rounded-full border border-line p-1 hover:shadow-md sm:py-1.5 sm:pr-1.5 sm:pl-3" aria-expanded={open} aria-label="Account menu">
+        <Menu className="hidden size-4 sm:block" aria-hidden />
         <Avatar name={user.name} id={user.id} size="sm" />
       </button>
       {open && (
@@ -196,7 +196,7 @@ function UserMenu() {
 export function PublicLayout() {
   const { user } = useAuth()
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0">
       <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-8">
@@ -218,7 +218,7 @@ export function PublicLayout() {
           </div>
         </div>
       </header>
-      <main className="flex-1 pb-20 md:pb-0">
+      <main className="flex-1">
         <Outlet />
       </main>
       <footer className="border-t border-line bg-white">

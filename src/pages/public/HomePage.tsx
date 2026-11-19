@@ -33,9 +33,9 @@ export function SearchForm({ initial, compact }: { initial?: { intent?: Intent; 
 
   return (
     <form onSubmit={submit} className={cx('rounded-3xl border border-line bg-white p-4 shadow-sm', compact ? '' : 'sm:p-5')}>
-      <div role="tablist" aria-label="What are you looking for?" className="mb-4 flex gap-1 overflow-x-auto">
+      <div role="tablist" aria-label="What are you looking for?" className="mb-4 grid grid-cols-4 gap-1 sm:flex">
         {INTENTS.map((i) => (
-          <button key={i.id} type="button" role="tab" aria-selected={intent === i.id} onClick={() => setIntent(i.id)} className={cx('shrink-0 rounded-full px-4 py-2 text-sm font-semibold', intent === i.id ? 'bg-ink text-white' : 'text-muted hover:bg-stone-100 hover:text-ink')}>
+          <button key={i.id} type="button" role="tab" aria-selected={intent === i.id} onClick={() => setIntent(i.id)} className={cx('rounded-full px-1 py-2 text-[13px] font-semibold whitespace-nowrap sm:px-4 sm:text-sm', intent === i.id ? 'bg-ink text-white' : 'text-muted hover:bg-stone-100 hover:text-ink')}>
             {i.label}
           </button>
         ))}

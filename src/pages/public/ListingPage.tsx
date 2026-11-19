@@ -24,9 +24,9 @@ export function ListingPage() {
   if (error || !l) return <ErrorState error={error} onRetry={reload} />
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-        <div>
+    <div className="mx-auto max-w-6xl px-4 pt-6 pb-24 sm:px-6 lg:px-8 lg:pb-6">
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <p className="text-sm font-semibold text-brand-700">
             {intentLabel(l.intent)} · {propertyTypeLabel(l.propertyType)}
           </p>
@@ -44,7 +44,7 @@ export function ListingPage() {
             {l.promoted && <PromotedLabel />}
           </div>
         </div>
-        <SaveButton listingId={l.id} className="border border-line" />
+        <SaveButton listingId={l.id} className="shrink-0 border border-line" />
       </div>
 
       <PhotoGallery photos={l.photos} title={l.title} />
@@ -107,9 +107,16 @@ export function ListingPage() {
           </button>
         </div>
 
-        <aside>
+        <aside id="act" className="scroll-mt-20">
           <div className="sticky top-24">{l.intent === 'short_stay' ? <BookingPanel l={l} /> : <EnquiryPanel l={l} />}</div>
         </aside>
+      </div>
+      {/* On phones the panel is far down the page: keep the price and the next step in reach. */}
+      <div className="fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-30 flex items-center justify-between gap-3 border-t border-line bg-white px-4 py-3 lg:hidden">
+        <PriceTag amount={l.price} basis={l.basis} size="sm" />
+        <Button size="sm" onClick={() => document.getElementById('act')?.scrollIntoView({ behavior: 'smooth' })}>
+          {l.intent === 'short_stay' ? 'Check dates' : 'Enquire'}
+        </Button>
       </div>
       <ReportDialog open={reportOpen} onClose={() => setReportOpen(false)} target={{ kind: 'listing', id: l.id, label: l.title }} />
     </div>

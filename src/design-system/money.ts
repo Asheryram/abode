@@ -65,6 +65,18 @@ export interface FormatOptions {
   hideZeroFraction?: boolean
 }
 
+/**
+ * The amount as a plain number without the currency, e.g. "850" or "1,250.50",
+ * for tight spaces where the currency is already stated nearby.
+ */
+export function formatAmount(amount: MoneyAmount, locale = 'en-GH'): string {
+  const digits = minorDigits(amount.currency)
+  const decimal = toDecimalString(amount.amountMinor, digits)
+  const whole = digits === 0 || /\.0+$/.test(decimal)
+  const shown = whole ? 0 : digits
+  return new Intl.NumberFormat(locale, { minimumFractionDigits: shown, maximumFractionDigits: shown }).format(decimal as unknown as number)
+}
+
 /** Formats an amount for display, e.g. "GH₵450.00". */
 export function formatMoney(amount: MoneyAmount, options: FormatOptions = {}): string {
   const { locale = 'en-GH', hideZeroFraction = false } = options

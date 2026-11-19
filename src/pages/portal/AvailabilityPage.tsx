@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useToast } from '../../context/ToastContext'
 import type { CalendarDay, ISODate } from '../../contracts'
-import { Button, Card, cx, ErrorAlert, ErrorState, formatMoney, PageHeader, Spinner, TextField } from '../../design-system'
+import { Button, Card, cx, ErrorAlert, ErrorState, formatAmount, formatMoney, PageHeader, Spinner, TextField } from '../../design-system'
 import { useAction } from '../../hooks/useAction'
 import { useAsync } from '../../hooks/useAsync'
 import { addDays, formatMonth, parseISODate, toISODate, today } from '../../lib/dates'
@@ -87,7 +87,7 @@ export function AvailabilityPage() {
                   aria-label={`${d.date}, ${d.reason ? d.reason : 'open'}, ${formatMoney(d.price)}`}
                   onClick={(e) => pick(d, e.shiftKey)}
                   className={cx(
-                    'flex min-h-16 flex-col rounded-lg border p-1.5 text-left text-xs transition-colors sm:min-h-20',
+                    'flex min-h-16 min-w-0 flex-col overflow-hidden rounded-lg border p-1 text-left text-[11px] transition-colors sm:min-h-20 sm:p-1.5 sm:text-xs',
                     date.getMonth() !== thisMonth && 'opacity-50',
                     past && 'cursor-not-allowed bg-stone-50 text-muted',
                     !past && d.reason === 'booked' && 'border-info-border bg-info-bg text-info-fg',
@@ -98,7 +98,10 @@ export function AvailabilityPage() {
                   )}
                 >
                   <span className="font-semibold">{date.getDate()}</span>
-                  <span className={cx('mt-auto tabular-nums', override && 'font-bold')}>{formatMoney(d.price, { hideZeroFraction: true })}</span>
+                  <span className={cx('mt-auto truncate tabular-nums', override && 'font-bold')}>
+                    <span className="sm:hidden">{formatAmount(d.price)}</span>
+                    <span className="hidden sm:inline">{formatMoney(d.price, { hideZeroFraction: true })}</span>
+                  </span>
                   {d.reason && <span className="truncate text-[10px] no-underline">{d.reason === 'blocked' ? d.note ?? 'Closed' : d.reason === 'booked' ? 'Booked' : 'Held'}</span>}
                 </button>
               )
@@ -109,7 +112,7 @@ export function AvailabilityPage() {
             <span className="flex items-center gap-1.5"><span className="size-3 rounded border border-info-border bg-info-bg" /> Booked</span>
             <span className="flex items-center gap-1.5"><span className="size-3 rounded border border-warning-border bg-warning-bg" /> Held by a guest paying now</span>
             <span className="flex items-center gap-1.5"><span className="size-3 rounded border border-neutral-border bg-neutral-bg" /> Closed by you</span>
-            <span className="font-bold">Bold price = special price</span>
+            <span className="font-bold">Bold price = special price. Prices in GH₵.</span>
           </div>
         </Card>
 

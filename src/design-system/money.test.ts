@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatMoney, minorDigits, toDecimalString } from './money'
+import { formatAmount, formatMoney, minorDigits, toDecimalString } from './money'
 
 describe('toDecimalString', () => {
   it('moves the decimal point without floating-point maths', () => {
@@ -53,5 +53,12 @@ describe('formatMoney', () => {
 
   it('formats currencies with no minor unit', () => {
     expect(formatMoney({ amountMinor: 1500, currency: 'XOF' })).toMatch(/1,500|1 500|1 500/)
+  })
+})
+
+describe('formatAmount', () => {
+  it('shows the number without the currency, for tight spaces', () => {
+    expect(formatAmount({ amountMinor: 85000, currency: 'GHS' })).toBe('850')
+    expect(formatAmount({ amountMinor: 125050, currency: 'GHS' })).toBe('1,250.50')
   })
 })

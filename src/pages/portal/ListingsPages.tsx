@@ -179,7 +179,7 @@ export function ListingEditorPage() {
   })
 
   return (
-    <div>
+    <div className="pb-20 xl:pb-0">
       <Link to="/portal/listings" className="text-sm font-semibold text-brand-700 hover:underline">← Listings</Link>
       <PageHeader title={l.title || 'Untitled listing'} subtitle={`${intentLabel(l.intent)} · ${propertyTypeLabel(l.propertyType)}`} actions={<ListingStatusPill state={l.state} />} />
       {l.rejectionReason && l.state === 'draft' && <div className="mb-6"><Alert tone="danger" title="Abode asked for changes">{l.rejectionReason}</Alert></div>}
@@ -325,6 +325,12 @@ export function ListingEditorPage() {
           </div>
         </aside>
       </div>
+      {!readOnly && dirty && (
+        <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t border-line bg-white px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] xl:hidden">
+          <span className="text-sm font-semibold">Unsaved changes</span>
+          <Button size="sm" loading={save.busy} onClick={() => void doSave()}>Save changes</Button>
+        </div>
+      )}
       <ReasonDialog
         open={withdrawOpen}
         title="Withdraw this listing?"
