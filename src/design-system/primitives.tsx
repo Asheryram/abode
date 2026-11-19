@@ -204,26 +204,45 @@ export function TextArea({ label, hint, error, className, ...rest }: FieldProps 
   )
 }
 
+export type Option = string | { value: string; label: string }
+
 export function SelectField({
   label,
   options,
+  placeholder = 'Choose…',
+  hint,
+  error,
   className,
   ...rest
-}: { label: string; options: string[]; className?: string } & SelectHTMLAttributes<HTMLSelectElement>) {
+}: { label: string; options: readonly Option[]; placeholder?: string | false; hint?: string; error?: string; className?: string } & SelectHTMLAttributes<HTMLSelectElement>) {
   const id = useId()
   return (
     <div className={className}>
       <label htmlFor={id} className="mb-1.5 block text-sm font-semibold">
         {label}
       </label>
-      <select id={id} className={cx(inputBase, 'h-12 appearance-none')} {...rest}>
-        <option value="">Choose…</option>
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
+      <select
+        id={id}
+        aria-invalid={!!error || undefined}
+        aria-describedby={error || hint ? `${id}-note` : undefined}
+        className={cx(inputBase, 'h-12 appearance-none', error && 'border-danger-solid')}
+        {...rest}
+      >
+        {placeholder !== false && <option value="">{placeholder}</option>}
+        {options.map((o) => {
+          const { value, label: text } = typeof o === 'string' ? { value: o, label: o } : o
+          return (
+            <option key={value} value={value}>
+              {text}
+            </option>
+          )
+        })}
       </select>
+      {(error || hint) && (
+        <p id={`${id}-note`} className={cx('mt-1.5 text-sm', error ? 'text-danger-fg' : 'text-muted')}>
+          {error ?? hint}
+        </p>
+      )}
     </div>
   )
 }

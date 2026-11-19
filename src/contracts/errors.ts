@@ -38,15 +38,27 @@ export function codeForStatus(status: number): ApiErrorCode {
   return match ?? (status >= 500 ? 'SERVER' : 'BAD_REQUEST')
 }
 
+/** Short random ID tying an error to the server's logs (PLT-029, FE-GLB-010). */
+const correlation = () => Math.random().toString(16).slice(2, 10) + '-' + Math.random().toString(16).slice(2, 6)
+
 /** What every API call throws, whichever implementation is behind it. */
 export class ApiError extends Error {
   code: ApiErrorCode
   status: number
-  constructor(code: ApiErrorCode, message: string, status = STATUS_FOR[code]) {
+  /** Specific machine reason, e.g. MIN_STAY, HOLD_EXPIRED, STEP_UP_REQUIRED. */
+  reason?: string
+  /** Shown as a support reference. */
+  correlationId: string
+  /** Field-level problems, keyed by input name. */
+  fields?: Record<string, string>
+  constructor(code: ApiErrorCode, message: string, opts: { reason?: string; fields?: Record<string, string> } = {}) {
     super(message)
     this.name = 'ApiError'
     this.code = code
-    this.status = status
+    this.status = STATUS_FOR[code]
+    this.reason = opts.reason
+    this.fields = opts.fields
+    this.correlationId = correlation()
   }
 }
 

@@ -1,5 +1,11 @@
 /*
- * Design tokens. The only place raw colour values live.
+ * Design tokens. The ONLY place colours and fonts are defined.
+ *
+ * To change the look of the whole app, change the values in this file:
+ *   - Brand colour: the --color-brand-* scale (700 is buttons and links).
+ *   - Highlight colour: the --color-accent-* scale.
+ *   - Font: --font-sans (and the Google Fonts link in index.html).
+ * Then run `npm run check:contrast` to confirm text stays readable.
  *
  * Two layers:
  *   1. Palette (brand, accent, neutrals): the raw brand colours.
@@ -8,11 +14,11 @@
  * Components use semantic tokens wherever a meaning exists. A screen never
  * uses a raw hex value or a Tailwind default colour (red-600, sky-700...).
  * Every text/background pair here is checked for WCAG AA contrast by
- * `npm run check:contrast` (scripts/check-contrast.mjs), in every design
- * direction below. Add a new pair there when you add a token that carries text.
+ * `npm run check:contrast` (scripts/check-contrast.mjs). Add a new pair there
+ * when you add a token that carries text.
  *
- * Status colours (success, warning, danger, info) stay the same in every
- * direction: green always means done, red always means a problem.
+ * Status colours (success, warning, danger, info) are fixed meanings: keep
+ * them distinct from the brand so "done" and "problem" always read clearly.
  */
 
 @theme {
@@ -86,50 +92,4 @@
   /* Live location and sharing (TRK-023, TRK-031). */
   --color-live: var(--color-brand-700);
   --color-stale: #7a4508;
-}
-
-/*
- * ── Design directions ────────────────────────────────────────────────────
- * Alternatives for stakeholders to compare, switched with data-theme on
- * <html>. Each one overrides only the brand palette, the accent and the
- * typeface. The default (no data-theme) is "Forest". Once a direction is
- * chosen, its values move into @theme above and these blocks are deleted.
- */
-
-/* Coastal: Atlantic blue with a coral accent. */
-[data-theme='coastal'] {
-  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --color-brand-50: #eef5fb;
-  --color-brand-100: #d6e7f5;
-  --color-brand-200: #adcdea;
-  --color-brand-300: #7eaedb;
-  --color-brand-400: #4f8cc8;
-  --color-brand-500: #2f6fb0;
-  --color-brand-600: #1f5a96;
-  --color-brand-700: #14487c;
-  --color-brand-800: #103a64;
-  --color-brand-900: #0c2d4e;
-  --color-accent-100: #fde4dc;
-  --color-accent-300: #f7a98f;
-  --color-accent-500: #ef7650;
-  --color-accent-700: #b2451f;
-}
-
-/* Earth: terracotta with an ochre accent. */
-[data-theme='earth'] {
-  --font-sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --color-brand-50: #fbf1ec;
-  --color-brand-100: #f5ddd1;
-  --color-brand-200: #ebbaa3;
-  --color-brand-300: #de9273;
-  --color-brand-400: #cf6c48;
-  --color-brand-500: #b8532f;
-  --color-brand-600: #9c4324;
-  --color-brand-700: #82361d;
-  --color-brand-800: #6a2c18;
-  --color-brand-900: #532313;
-  --color-accent-100: #fbf0cc;
-  --color-accent-300: #f0cf6e;
-  --color-accent-500: #e0ad2a;
-  --color-accent-700: #8f6a0c;
 }

@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { ISODate } from '../contracts'
 import { formatLong, formatMonth, parseISODate, toISODate, today, type DateRange } from '../lib/dates'
-import { cx } from './ui'
+import { cx } from '../design-system'
 
 const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
