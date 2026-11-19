@@ -78,7 +78,7 @@ export function TabLinks({ tabs }: { tabs: { to: string; label: string; count?: 
 /** Tabs that switch content on the same page. */
 export function Segmented<T extends string>({ value, options, onChange, label }: { value: T; options: { value: NoInfer<T>; label: string }[]; onChange(v: T): void; label: string }) {
   return (
-    <div role="radiogroup" aria-label={label} className="inline-flex rounded-xl border border-line bg-white p-1">
+    <div role="radiogroup" aria-label={label} className="inline-flex max-w-full overflow-x-auto rounded-xl border border-line bg-white p-1">
       {options.map((o) => (
         <button
           key={o.value}
@@ -86,7 +86,7 @@ export function Segmented<T extends string>({ value, options, onChange, label }:
           role="radio"
           aria-checked={value === o.value}
           onClick={() => onChange(o.value)}
-          className={cx('rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors', value === o.value ? 'bg-ink text-white' : 'text-muted hover:text-ink')}
+          className={cx('shrink-0 rounded-lg px-3 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors', value === o.value ? 'bg-ink text-white' : 'text-muted hover:text-ink')}
         >
           {o.label}
         </button>
@@ -160,22 +160,22 @@ export function DataTable<T>({ rows, columns, rowKey, onRowClick, empty }: { row
   if (!rows.length) return <div className="rounded-2xl border border-dashed border-line bg-white p-8 text-center text-muted">{empty ?? 'Nothing here yet.'}</div>
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-white">
-      <table className="w-full text-left text-sm">
+      <table className="block w-full text-left text-sm md:table">
         <thead className="hidden border-b border-line bg-stone-50 text-xs font-semibold tracking-wide text-muted uppercase md:table-header-group">
           <tr>
             {columns.map((c) => (
-              <th key={c.header} scope="col" className={cx('px-4 py-3', c.className)}>
+              <th key={`${c.header}-${columns.indexOf(c)}`} scope="col" className={cx('px-4 py-3', c.className)}>
                 {c.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-line">
+        <tbody className="block divide-y divide-line md:table-row-group">
           {rows.map((r) => (
             <tr key={rowKey(r)} onClick={onRowClick ? () => onRowClick(r) : undefined} className={cx('block md:table-row', onRowClick && 'cursor-pointer hover:bg-stone-50')}>
               {columns.map((c, i) => (
-                <td key={c.header} className={cx('block px-4 md:table-cell md:py-3', i === 0 ? 'pt-3' : 'py-0.5', i === columns.length - 1 && 'pb-3', c.className)}>
-                  <span className="mr-2 text-xs text-muted md:hidden">{i > 0 ? `${c.header}:` : ''}</span>
+                <td key={`${c.header}-${i}`} className={cx('px-4 md:table-cell md:py-3', i === 0 ? 'block min-w-0 pt-3' : 'flex flex-wrap items-baseline gap-x-2 py-0.5', i === columns.length - 1 && 'pb-3', !c.header && i > 0 && 'pt-2 md:pt-3', c.className)}>
+                  {i > 0 && c.header && <span className="shrink-0 text-xs text-muted md:hidden">{c.header}</span>}
                   {c.cell(r)}
                 </td>
               ))}

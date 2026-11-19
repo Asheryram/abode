@@ -1,5 +1,5 @@
 /** SEA-001 to SEA-024: search one intent at a time, filters in the address so results can be shared. */
-import { SearchX } from 'lucide-react'
+import { SearchX, SlidersHorizontal } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ListingCard } from '../../components/listing'
@@ -41,6 +41,7 @@ export function SearchPage() {
   const [cursor, setCursor] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<unknown>(null)
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
     let current = true
@@ -88,8 +89,13 @@ export function SearchPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <SearchForm key={key} compact initial={{ intent, q: query.q, region: query.region, checkIn: query.checkIn, checkOut: query.checkOut, guests: query.guests }} />
-      <div className="mt-6 grid gap-8 lg:grid-cols-[240px_1fr]">
-        <aside className="space-y-4" aria-label="Filters">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[240px_1fr] lg:gap-8">
+        <div className="lg:hidden">
+          <Button variant="secondary" size="sm" onClick={() => setShowFilters((s) => !s)} aria-expanded={showFilters}>
+            <SlidersHorizontal className="size-4" aria-hidden /> {showFilters ? 'Hide filters' : 'Filters and sort'}
+          </Button>
+        </div>
+        <aside className={`space-y-4 ${showFilters ? '' : 'hidden'} lg:block`} aria-label="Filters">
           <SelectField label="Property type" value={query.propertyType ?? ''} onChange={(e) => set('type', e.target.value)} options={types.map((t) => ({ value: t.id, label: t.label }))} placeholder="Any type" />
           {intent !== 'commercial' && <SelectField label="Bedrooms" value={params.get('beds') ?? ''} onChange={(e) => set('beds', e.target.value)} options={['1', '2', '3', '4', '5'].map((n) => ({ value: n, label: `${n}+` }))} placeholder="Any" />}
           <div className="grid grid-cols-2 gap-2">
