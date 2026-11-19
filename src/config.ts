@@ -1,49 +1,61 @@
-import type { AmenityId, PlaceType, PropertyType } from './contracts'
+/**
+ * Product-wide labels and lists. Change a word here and every screen follows.
+ * Colours and fonts live in src/styles/tokens.css; component text lives in
+ * src/design-system/strings.ts.
+ */
+import type { Intent, OrgKind, OrgRole, PropertyType, StaffRole } from './contracts'
 
-/** Product name. Change it here and the whole app follows. */
+/** Product name. */
 export const BRAND = 'Abode'
 
-export const CURRENCY_SYMBOL = 'GH₵'
-
-/** The platform's cut, charged to the guest on top of the stay. */
-export const SERVICE_FEE_RATE = 0.1
-
-/** A host has to upload at least this many photos before publishing. */
-export const MIN_PHOTOS = 3
-
-export const MAX_TITLE = 60
-export const MAX_DESCRIPTION = 1000
-
-export const PROPERTY_TYPES: { id: PropertyType; label: string; plural: string }[] = [
-  { id: 'house', label: 'House', plural: 'Houses' },
-  { id: 'apartment', label: 'Apartment', plural: 'Apartments' },
-  { id: 'villa', label: 'Villa', plural: 'Villas' },
-  { id: 'beach', label: 'Beach house', plural: 'Beachfront' },
-  { id: 'cabin', label: 'Cabin', plural: 'Cabins' },
-  { id: 'guesthouse', label: 'Guesthouse', plural: 'Guesthouses' },
+export const INTENTS: { id: Intent; label: string; verb: string; hint: string }[] = [
+  { id: 'short_stay', label: 'Short stays', verb: 'Stay', hint: 'Book a place by the night' },
+  { id: 'rent', label: 'Rent', verb: 'Rent', hint: 'Homes to rent long term' },
+  { id: 'sale', label: 'Buy', verb: 'Buy', hint: 'Homes and land for sale' },
+  { id: 'commercial', label: 'Commercial', verb: 'Lease', hint: 'Offices, shops and warehouses' },
 ]
 
-export const PLACE_TYPES: { id: PlaceType; label: string; hint: string }[] = [
-  { id: 'entire', label: 'An entire place', hint: 'Guests have the whole place to themselves.' },
-  { id: 'private-room', label: 'A private room', hint: 'Guests have their own room and share some spaces.' },
-  { id: 'shared-room', label: 'A shared room', hint: 'Guests sleep in a room or common area they share.' },
+export const intentLabel = (i: Intent) => INTENTS.find((x) => x.id === i)?.label ?? i
+
+export const PROPERTY_TYPES: { id: PropertyType; label: string; intents: Intent[] }[] = [
+  { id: 'house', label: 'House', intents: ['short_stay', 'rent', 'sale'] },
+  { id: 'apartment', label: 'Apartment', intents: ['short_stay', 'rent', 'sale'] },
+  { id: 'townhouse', label: 'Townhouse', intents: ['rent', 'sale'] },
+  { id: 'villa', label: 'Villa', intents: ['short_stay', 'rent', 'sale'] },
+  { id: 'guesthouse', label: 'Guesthouse', intents: ['short_stay'] },
+  { id: 'land', label: 'Land', intents: ['sale'] },
+  { id: 'office', label: 'Office', intents: ['commercial'] },
+  { id: 'shop', label: 'Shop', intents: ['commercial'] },
+  { id: 'warehouse', label: 'Warehouse', intents: ['commercial'] },
 ]
 
-export const AMENITIES: { id: AmenityId; label: string }[] = [
-  { id: 'wifi', label: 'Wi-Fi' },
-  { id: 'ac', label: 'Air conditioning' },
-  { id: 'kitchen', label: 'Kitchen' },
-  { id: 'parking', label: 'Free parking' },
-  { id: 'pool', label: 'Pool' },
-  { id: 'tv', label: 'TV' },
-  { id: 'washer', label: 'Washing machine' },
-  { id: 'generator', label: 'Backup generator' },
-  { id: 'water-tank', label: 'Reserve water tank' },
-  { id: 'workspace', label: 'Dedicated workspace' },
-  { id: 'security', label: '24/7 security' },
-  { id: 'gym', label: 'Gym' },
-  { id: 'breakfast', label: 'Breakfast' },
-  { id: 'beach-access', label: 'Beach access' },
+export const propertyTypeLabel = (id: PropertyType) => PROPERTY_TYPES.find((t) => t.id === id)?.label ?? id
+
+export const FEATURES = [
+  'Wi-Fi',
+  'Air conditioning',
+  'Kitchen',
+  'Backup generator',
+  'Water tank',
+  'Prepaid meter',
+  'Free parking',
+  'Parking',
+  'Swimming pool',
+  'Gym',
+  '24-hour security',
+  'Security',
+  'Walled compound',
+  'Gated estate',
+  'Garden',
+  'Balcony',
+  'Beach access',
+  'Workspace',
+  'Washing machine',
+  'Furnished',
+  'Lift',
+  'Fibre internet',
+  'Loading bays',
+  'Street frontage',
 ]
 
 export const GHANA_REGIONS = [
@@ -65,9 +77,23 @@ export const GHANA_REGIONS = [
   'North East',
 ]
 
-export const propertyTypeLabel = (id: PropertyType) =>
-  PROPERTY_TYPES.find((t) => t.id === id)?.label ?? id
+export const ORG_KINDS: { id: OrgKind; label: string; hint: string }[] = [
+  { id: 'individual_owner', label: 'I own property', hint: 'List your own homes for rent, sale or short stays.' },
+  { id: 'host', label: 'I run short stays', hint: 'A guesthouse or holiday homes business.' },
+  { id: 'agency', label: 'I’m an agency', hint: 'A registered agency marketing property for owners.' },
+]
 
-export const placeTypeLabel = (id: PlaceType) => PLACE_TYPES.find((t) => t.id === id)?.label ?? id
+export const orgKindLabel = (k: OrgKind) => ({ agency: 'Agency', individual_owner: 'Owner', host: 'Short-stay host' })[k]
 
-export const amenityLabel = (id: AmenityId) => AMENITIES.find((a) => a.id === id)?.label ?? id
+export const ORG_ROLE_LABEL: Record<OrgRole, string> = { admin: 'Administrator', agent: 'Agent', finance: 'Finance' }
+
+export const STAFF_ROLE_LABEL: Record<StaffRole, string> = {
+  moderator: 'Moderator',
+  verification_officer: 'Verification officer',
+  finance_operator: 'Finance operator',
+  support_agent: 'Support agent',
+  platform_admin: 'Platform administrator',
+  analyst: 'Analyst (read only)',
+}
+
+export const MOBILE_MONEY_NETWORKS = ['MTN Mobile Money', 'Telecel Cash', 'AirtelTigo Money']

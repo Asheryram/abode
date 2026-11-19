@@ -80,4 +80,4 @@ if (failed) {
   console.error(`\n${failed} pair(s) fail WCAG AA.`)
   process.exit(1)
 }
-console.log(`\nAll pairs pass WCAG AA in ${Object.keys(directions).length} design directions.`)
+console.log(`\nAll pairs pass WCAG AA${Object.keys(directions).length > 1 ? ` in ${Object.keys(directions).length} themes` : ""}.`)

@@ -1,6 +1,6 @@
 import { House } from 'lucide-react'
 import { useState, type ImgHTMLAttributes } from 'react'
-import { cx } from './ui'
+import { cx } from '../design-system'
 
 /** An <img> that turns into a quiet placeholder instead of a broken-image icon. */
 export function SafeImage({ className, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) {

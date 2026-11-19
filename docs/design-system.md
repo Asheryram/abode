@@ -22,6 +22,17 @@ This document is for people and coding agents. Its rules come from the frontend 
 
 A change to a token or component needs: the reference page updated, `npm run check` passing, and before/after screenshots in the pull request.
 
+## Changing the look
+
+All colours and the font live in one file: `src/styles/tokens.css`.
+
+- **Brand colour:** change the `--color-brand-*` scale. `brand-700` is buttons and links.
+- **Highlight colour:** change the `--color-accent-*` scale.
+- **Font:** change `--font-sans`, and the Google Fonts link in `index.html`.
+- Then run `npm run check:contrast` to confirm text is still readable.
+
+Product words (intents, property types, regions, role names) live in `src/config.ts`. Component wording lives in `src/design-system/strings.ts`.
+
 ## Tokens
 
 | Group | Tokens | Use for |
@@ -70,6 +81,13 @@ Type is Plus Jakarta Sans, using the Tailwind scale: page title `text-3xl font-b
 - `EtaRange`: always a range with its basis, never a single time (TRK-033).
 - `SharingBanner`: must be on every screen while the user shares location: who can see it, when it stops, and a stop button (TRK-023).
 
+### Page structure and forms (`layout.tsx`)
+
+`PageHeader`, `Card`, `Stat`, `TabLinks`, `Segmented`, `Checkbox`, `RadioCards`, `Facts`, `DataTable` (a table on wide screens, stacked cards on phones), `ErrorAlert`, `ReasonDialog` and `DemoNote`.
+
+- `ReasonDialog` is required for any privileged or consequential action. The reason goes to the audit log (ADM-004).
+- `DemoNote` marks test-only hints, such as test codes. Remove these when the real backend arrives.
+
 ### Feedback (`feedback.tsx`)
 
 - `Alert`: info, success, warning, danger. Pass `reference` with the API correlation ID on errors so support can trace them (FE-GLB-010).
@@ -82,12 +100,3 @@ Type is Plus Jakarta Sans, using the Tailwind scale: page title `text-3xl font-b
 | `npm run check:contrast` | Every text and background token pair against WCAG 2.2 AA |
 | `npm test` | Money formatting, trust expiry, countdown timing, location freshness |
 | `npm run check` | Lint, contrast, tests and build together. Run before every pull request |
-
-## Known gaps in the existing app
-
-The starter screens predate these rules. They still work, and are tracked here for migration:
-
-- `src/lib/pricing.ts` calculates totals in the browser, and `src/lib/format.ts` `money()` formats whole-unit numbers. Both break FE-GLB-001 and FE-GLB-004. Replace them with the API quote and `PriceBreakdown` or `PriceTag` once the backend returns minor units.
-- `src/services/tokenStore.ts` keeps the login token in `localStorage`. That breaks FE-GLB-015 and DEC-FE-04. Move to `HttpOnly` cookies when the real backend is connected.
-- Page-level text is still hard-coded in pages. Move it into a catalogue screen by screen.
-- Screens import from `src/components/ui`, which now re-exports the design system. New code imports from `src/design-system`.
